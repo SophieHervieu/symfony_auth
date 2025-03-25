@@ -38,7 +38,7 @@ class Account implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     #[Assert\Regex(
         pattern:'/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/',
-        match: false,
+        match: true,
         message: "Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule et un nombre",
         )]
         #[Assert\NotCompromisedPassword]
@@ -63,6 +63,9 @@ class Account implements UserInterface, PasswordAuthenticatedUserInterface
         minMessage: "Le nom doit faire au moins 2 caractères"
     )]
     private ?string $lastname = null;
+
+    #[ORM\Column]
+    private ?bool $status = null;
 
     public function getId(): ?int
     {
@@ -159,6 +162,18 @@ class Account implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLastname(string $lastname): static
     {
         $this->lastname = $lastname;
+
+        return $this;
+    }
+
+    public function isStatus(): ?bool
+    {
+        return $this->status;
+    }
+
+    public function setStatus(bool $status): static
+    {
+        $this->status = $status;
 
         return $this;
     }
